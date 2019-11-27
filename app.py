@@ -14,15 +14,15 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def main():
     return render_template('index.html')
 
-@app.route("/model")
+@app.route("/model", methods=["GET"])
 def model_page():
     return render_template('model_page.html')
 
-@app.route("/process_model",  methods=["POST"])
+@app.route("/process_model",  methods=["GET","POST"])
 def process_model():
 
     error = ""
@@ -80,11 +80,11 @@ def process_model():
 
     return render_template('process_model.html',model=dic_model)
 
-@app.route("/predict")
+@app.route("/predict", methods=["GET"])
 def predict():
     return render_template('predict_page.html')
 
-@app.route("/predict_result",  methods=["POST"])
+@app.route("/predict_result",  methods=["GET","POST"])
 def predict_result():
 
     tahun = request.form['year']
