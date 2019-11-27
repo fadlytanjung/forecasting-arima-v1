@@ -1,0 +1,79 @@
+header{
+    background: #93C47C;
+    height:15vh;
+    border-bottom:2px solid #333;
+    position: relative;
+}
+
+.text-left img{
+    width:70px;
+    margin:10px;
+    float: left;
+}
+
+header h3{
+    float: left;
+    padding-top:30px;
+    padding-left: 10px;
+}
+.text-right img{
+    width:60px;
+    margin:10px;
+    float: right;
+}
+
+main{
+    min-height:78vh;
+    text-align: center;
+    position: relative;
+}
+
+.logo-banner{
+    margin-top:20px;
+    margin-bottom:10px;
+    width:200px;
+}
+
+.label-anggaran{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.loading {
+  margin: auto;
+  position: relative;
+  z-index: 1000;
+  width: 160px;
+  height: 160px;
+  cursor: wait;
+    }
+.bg-image{
+  background: rgba(255,255,255,0.9);
+  width:100%;
+  height:800px;
+  position: fixed;
+  padding-top: 200px;
+  z-index: 1000;
+  text-align: center;
+  display: none;
+  cursor: wait;
+}
+
+.slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus {
+    color: transparent;
+    outline: none;
+    background:  #93C47C;;
+}
+
+.slick-prev,.slick-next{
+    background: #93C47C;
+}
+footer{
+
+    background: #93C47C;
+    height:7vh;
+    border-top:2px solid #333;
+    text-align:center;
+    padding:10px;
+   
+}

@@ -1,0 +1,77 @@
+{% include "header.html" %}
+
+<main>
+
+    <a href="/predict">
+        <button class="btn btn-primary" 
+        style="position: absolute;top:17px;right:200px;">Prediksi Lagi</button>
+    </a>
+    <a href="/model">
+        <button class="btn btn-success" 
+        style="position: absolute;top:17px;right:100px;">Data Baru</button>
+    </a>
+    <h3 style="padding-top:20px">Hasil Prediksi dari Data</h3>
+    <div class="row" style="margin: 0;">
+        <div class="container p-0" style="max-width:1180px">
+            <div class="single-item">
+                {% for data in predict %}
+                <div style="margin: 0;display:flex;justify-content: center;">
+                    <div class="col-md-7 p-0">
+                        <img src="/static/image_plot_forecast/{{data.table}}.png" width="100%" />
+                    </div>
+                    <div class="col-md-5" style="padding-top:50px;">
+                        <h4>{{data.table}} {{data.title}}</h4>
+                        <br>
+                        <table class="table table-stripped" style="font-size:0.9rem">
+                            <thead>
+                                <tr>
+                                    <th>Tahun</th>
+                                    <!-- <th>Aktual</th> -->
+                                    <th>Prediksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in data.data.data %}
+                                <tr>
+                                    <td>{{item[data.data.schema.fields[0].name].split('-')[0]}}</td>
+
+                                    <!-- {% if item[data.data.schema.fields[1].name] != None %}
+                                        <td>{{ "{:,.2f}".format(item[data.data.schema.fields[1].name]) }}</td>
+                                    {% else %}
+                                        <td>-</td>
+                                    {% endif %} -->
+                                    {% if item[data.data.schema.fields[2].name] != None %}
+                                    
+                                        <td>{{"{:,.2f}".format(item[data.data.schema.fields[2].name])}}</td>
+                                    {% else %}
+                                        <td>-</td>
+                                    {% endif %}
+            
+                                    <!-- <td>{{'%0.2f'|format(item[data.data.schema.fields[2].name]|float)}}</td> -->
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-12">
+                <div class="row" style="padding:30px">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4 text-right">
+                        <a href="/predict">
+                            <button class="btn btn-primary">Prediksi Lagi</button>
+                        </a>
+                        <a href="/model">
+                            <button class="btn btn-success">Data Baru</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+{% include "footer.html" %}

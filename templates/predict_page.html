@@ -1,0 +1,21 @@
+{% include "header.html" %}
+
+<main>
+    <h4 class="label-anggaran">Masukkan Jangka Tahun Prediksi</h4>
+    <div class="card" style="width:400px;margin:0 auto;text-align: center;">
+        <div class="card-body">
+            <form class="form-inline" method="POST" action="/predict_result">
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Tahun</label>
+                    <input type="number" class="form-control-file" name="year" id="exampleFormControlFile1">
+                </div>
+                <div style="padding-top:20px;width:100%">
+                    <button type="submit" id="process_p" class="btn btn-primary btn-block" disabled>Process</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</main>
+
+{% include "footer.html" %}

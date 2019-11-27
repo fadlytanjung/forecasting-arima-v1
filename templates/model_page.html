@@ -1,0 +1,26 @@
+{% include "header.html" %}
+
+<main>
+    <h4 class="label-anggaran">Masukkan File Anggaran:</h4>
+    <div class="card" style="width:400px;margin:0 auto;text-align: center;">
+    <div class="card-body">
+        <form class="form-inline" method="POST" action="/process_model"
+            enctype="multipart/form-data"
+            >
+            <div class="form-group">
+                <label for="exampleFormControlFile1">File input (.csv)</label>
+                <input type="file" class="form-control-file" name="file" id="exampleFormControlFile1">
+            </div>
+            <div style="height: 20px;text-align:left;width:100%;color:red">
+                <div id="PathError" style="display:none;">Format Tidak Sesuai</div>
+            </div>
+            <div style="padding-top:20px;width:100%">
+                <button type="submit" id="process" class="btn btn-primary btn-block" disabled>Process</button>
+            </div>
+        </form>
+    </div>
+        
+    </div>
+</main>
+
+{% include "footer.html" %}
