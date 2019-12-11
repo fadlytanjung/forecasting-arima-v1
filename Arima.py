@@ -90,7 +90,7 @@ class Arima:
 
 if __name__ == "__main__":
     
-    obj = Arima('data/dummyArima.csv')
+    obj = Arima('data/RealArima.csv')
     
     columns = obj.get_columns()
     len_columns = obj.len_columns()
@@ -125,11 +125,11 @@ if __name__ == "__main__":
         forecast_json = json.loads(forecast_future)
         dic_forecast.append(forecast_json)
 
-    with open('result/data_model.json', 'w+') as f:
+    with open('static/result/data_model.json', 'w+') as f:
         json.dump(dic_model, f)
         f.close()
 
-    with open('result/data_forecast.json','w+') as f:
+    with open('static/result/data_forecast.json','w+') as f:
         json.dump(dic_forecast,f)
         f.close()
 

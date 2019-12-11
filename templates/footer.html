@@ -15,6 +15,9 @@
     <script src="../static/js/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <script>
+    $.ajaxSetup({
+        cache: false
+    });
     $(function () {
        
         $('input[name=file]').change(function (event) {
@@ -23,8 +26,9 @@
                 $('#process').prop("disabled", false);
                 $('#PathError').hide()
             }
-            
-            if (event.target.files[0].type != 'text/csv') {
+            let len_file_name = event.target.files[0].name.split('.').length
+            console.log(event.target.files[0].name.split('.')[len_file_name-1])
+            if (event.target.files[0].name.split('.')[len_file_name - 1] != 'csv') {
                 $('#PathError').show()
                 $('#process').prop("disabled", true);
             }
