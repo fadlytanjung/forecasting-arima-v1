@@ -77,12 +77,12 @@ class Arima:
         
         future = pd.DataFrame(index=future_dates, columns=df_perdict.columns)
         df_perdict = pd.concat([df_perdict, future])
-
         df_perdict['forecast'] = results_model.predict(
-            start=len(data)-1, end=len(data)+number_of_year, dynamic=True)
+            start=len(data)-1, end=len(data)+number_of_year)
         df_perdict[[str(data.columns[0]), 'forecast']
-                ].iloc[-number_of_year - 12:].plot(figsize=(12, 8))
-        
+                ].iloc[-number_of_year-7:].plot(figsize=(12, 8))
+        print(df_perdict[[str(data.columns[0]), 'forecast']
+                         ].iloc[-number_of_year-7:])
         plt.savefig('static/image_plot_forecast/'+str(name_model)+'.png')
         model = df_perdict[-number_of_year:].to_json(orient='table')
         
