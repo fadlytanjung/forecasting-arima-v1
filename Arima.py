@@ -1,4 +1,4 @@
-import json
+import json,os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -44,15 +44,70 @@ class Arima:
         return data
 
     def model(self,data,name_model):
-        model = sm.tsa.SARIMAX(
-            data[list(data.columns)[0]], order=self.order,
-            sensasional_order=self.sensasional_order)
-        results = model.fit()
-        
+
+        result_array = []
+        aic_array = []
+        std_err_array = []
+        order_array = []
+
+        name_model_folder = 0
+        for i in range(3):
+            for j in range(3):
+                for k in range(3):
+                    print(i,j,k)
+                    order_array.append((i,j,k))
+
+                    model = sm.tsa.SARIMAX(
+                        data[list(data.columns)[0]], order=(i,j,k),
+                        sensasional_order=self.sensasional_order)
+                    results = model.fit()
+                    summary = results.summary()
+                    std_err = summary.tables[1][1][2]
+                    directory = 'static/arima_model/'+str(name_model)+'/'
+                    print(directory)
+                    if not os.path.exists(directory):
+                        os.makedirs(directory)
+                    results.save(directory+str(name_model_folder)+'.pkl')
+                    name_model_folder+=1
+                    x = std_err
+                    # print(std_err)
+                    # result_array.append(results)
+                    # aic_array.append(results.aic)
+                    # std_err_array.append(std_err)
+                    object_data = {
+                        "order":(i,j,k),
+                        "model":results,
+                        "aic":results.aic,
+                        "std_err":x
+                    }
+                    
+                    result_array.append(object_data)
+        min_aic = 9999999999999999
+        order = ""
+        inedx = None
+        print("----LIST ORDER PARAMS----")
+        for i in range(len(result_array)):
+            print(str(result_array[i]["order"]) +
+                  " : "+str(result_array[i]["aic"]))
+            # print(i)
+            if result_array[i]["aic"] < min_aic:
+                min_aic = result_array[i]["aic"]
+                order = result_array[i]["order"]
+                index = i 
+        print("----END OF LIST ORDER PARAMS-----\n")
+        print("----BEST ORDER PARAMS & aic VALUES -----")
+        print(str(order)+" : "+str(min_aic))
+        print("---------------------------------------\n")
+        # print(index)
+
+        # print(result_array[i])
+        results_model = ARIMAResults.load(directory+str(index)+'.pkl')
+        print(results_model.summary())
         # save model
-        results.save('static/arima_model/'+str(name_model)+'.pkl')
-        print(results.summary())
-        return results
+        results_model.save('static/arima_model/'+str(name_model)+'.pkl')
+        result_fix = ARIMAResults.load('static/arima_model/'+str(name_model)+'.pkl')
+        print(result_fix.summary())
+        return result_fix
 
     def show_plot_model(self,data,model,name_file):
         # model[1]['forecast'] = model[0].predict(start=1, end=6, dynamic=True)
@@ -90,6 +145,18 @@ class Arima:
 
 if __name__ == "__main__":
     
+    # model1 = ARIMAResults.load(
+    #      'static/arima_model/4.pkl')
+    # model2 = ARIMAResults.load(
+    #     'static/arima_model/5.pkl')
+    # model3 = ARIMAResults.load(
+    #     'static/arima_model/6.pkl')
+
+    # print(model1.zvalues)
+    # print(model2.summary())
+    # print(model3.summary().tables[1][1][2]) #get std err
+
+    # exit()
     obj = Arima('data/RealArima.csv')
     
     columns = obj.get_columns()
@@ -114,6 +181,8 @@ if __name__ == "__main__":
         convert_to_time = obj.convert_date_to_time(drop_columns)
         set_index = obj.set_index(convert_to_time)
         model = obj.model(set_index,index_name_model_column)
+
+        # exit()
         plot_model = obj.show_plot_model(set_index,model,index_name_model_column)    
         forecast_future = obj.forecast_future(set_index,index_name_model_column,1)
         
